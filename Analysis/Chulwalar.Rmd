@@ -1,0 +1,23 @@
+---
+title: "Forecasting Chulwalar Exports"
+author: "Dennis Murray"
+date: "July 14, 2016"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Winter Blooming Plants
+Efak, Wuge, Etel
+Exports Increase towards end of year
+Celebrate December 1st Independence
+Celebrate Equinox
+
+"As is" original/observed
+"Planned" what they would like to export
+
+Indicators influencing exports
+Determine best method to forecast exports using past data
+"as-is" and "planned"
