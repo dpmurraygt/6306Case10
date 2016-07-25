@@ -7,7 +7,7 @@ output:
     keep_md: true
 ---
 
-```{r setup, include=FALSE}
+```{r setup}
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
@@ -19,14 +19,14 @@ The exports are all winter-blooming plants, and thus will be subject to major se
 
 ####Import and Formatting of the Data
 
-```{r}
+```{r echo=FALSE, include=FALSE}
 source("Analysis/LoadFiles.R")
 source("Analysis/FormatEcoData.R")
 ```
 
-The data represents monthly export data from 2008 through 2014, as well as monthly economic indicators and planned export data.  It will necessary to convert the data from the tabular format presented from the Chulwalar data to a time series format.
+The data represents monthly export data from 2008 through 2014, as well as monthly economic indicators and planned export data.  It will necessary to convert the data from the tabular format presented from the Chulwalar data to a time series format.  The conversion is being handled in a Makefile, but details can be seen via exploration of the Github repository.
 
-```{r}
+```{r echo=FALSE}
 source("Analysis/TimeSeriesMe.R")
 ```
 
@@ -109,7 +109,7 @@ Therefore, we will select the Holt Winters with Multiplicative Seasonal trend as
 
 ####Conclusion
 
-```{r}
+```{r fig.width=12, fig.height=4}
 par(mfrow=c(1,2))
 plot(Model_hw_1)
 plot(Model_hw_2)
@@ -120,5 +120,3 @@ The selected model, a Holt-Winters with a multiplicative seasonal trend, reflect
 The model was selected as a result of its consistency in terms of the lowest, or nearly the lowest forecast error across a number of different measures.
 
 Examining against the second best solution, the additive seasonal trend, the forecast shows a greater "trough" for the lowest months of the year than the additive trend does.  
-
-####Appendix
