@@ -24,8 +24,6 @@ source("Analysis/LoadFiles.R")
 source("Analysis/FormatEcoData.R")
 ```
 
-```
-
 The data represents monthly export data from 2008 through 2014, as well as monthly economic indicators and planned export data.  It will necessary to convert the data from the tabular format presented from the Chulwalar data to a time series format.
 
 ```{r}
@@ -46,15 +44,81 @@ source("Analysis/ExploreSeasonal.R")
 
 Examining our seasonal component more closely, we can see pealk months for Total Seasonality to exist in the September to November time period, slightly lowerin the December-March time period, and then the lowest part of the season in April through August.  The lowest month of the full year is July, followed by June.
 
+```{r}
+source("Analysis/TestCorr.R")
+Sorted
+```
 
 
 ####Forecast Hypothesis
 
+Our selection of a forecast model will need to balance the principle of Occam's Razor, calling for the simplest possible model, with the selection of a model that allows for enough complexity to address the seasonality that we have seen present in the data set for Total Exports.
+
+```{r}
+source("Analysis/ModelSES.R")
+source("Analysis/ModelHW.R")
+source("Analysis/ModelHW2.R")
+source("Analysis/ModelHW3.R")
+source("Analysis/ModelHW4.R")
+source("Analysis/ModelHW5.R")
+source("Analysis/ModelHW6.R")
+```
+
+Model_ses: Simple Exponential Smoothing
+
+Model_holt_1: Basic Holt Winters Model
+
+Model_holt_2: Holt Winters with Exponential Trend
+
+Model_holt_3: Holt Winters with Damped Trend
+
+Model_holt_4: Holt Winters with Exponential and damped trend
+
+Model_hw_1: Holt Winters Additive Seasonal Trend
+
+Model_hw_2: Holt Winters Multiplicative Seasonal Trend
+
+
 
 ####Review of Accuracy
 
+To evaluate the overall accuracy of each forecast, we will review the error calculations provided for each forecast from the accuracy command in the forecast library.
+
+```{r}
+source("Analysis/CalcFcstAccuracy.R")
+ModelAccuracy[,1:6]
+```
+
+The Model_holt_3, A damped trend, has the best absolute performance for Mean Error (ME) at 15,578, slightly better than the Model_holt_1 and Model_hw_2.
+
+For Root Mean Squared Error (RMSE), the Model_hw_2 and Model_hw_1 far outperform the rest of the models.
+
+For Mean Absolute Error (MAE), the Model_hw_2 and Model_hw_1 are first and second respectively.  
+
+For Mean percentage error (MPE), the Model_Hw_1 is the best absolute performer at 8.3%, followed by the model_Hw_2.
+
+For Mean Absolute Percentage Error, the Model_hw_1 and Model_hw_2 both are nearly equal at 7.3 and 7.2%.
+
+Finally, the Model_hw_2 and the Model_hw_1 have values of 0.52 and 0.55 respectively.
+
+Overall, the Model_hw_1 had one first place finish in accuracy scores, and four second place finishes in accuracy scores.
+
+The model_hw_2, Holt Winters with a Multiplicative Seasonal trend is our most accurate, placing first in accuracy for four scores and second in two.
+
+Therefore, we will select the Holt Winters with Multiplicative Seasonal trend as our forecast model.
 
 ####Conclusion
 
+```{r}
+par(mfrow=c(1,2))
+plot(Model_hw_1)
+plot(Model_hw_2)
+```
+
+The selected model, a Holt-Winters with a multiplicative seasonal trend, reflects both of the observations made in the review of the seasonal decomposition: a strong continued trend of increased year-over-year volume, as well as the continued seasonal fluctuation that has marked the history of Chulwalar exports since 2008.  
+
+The model was selected as a result of its consistency in terms of the lowest, or nearly the lowest forecast error across a number of different measures.
+
+Examining against the second best solution, the additive seasonal trend, the forecast shows a greater "trough" for the lowest months of the year than the additive trend does.  
 
 ####Appendix
